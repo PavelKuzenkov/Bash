@@ -21,10 +21,17 @@ public class MainController {
 
     @GetMapping("/")
     public String greeting(
+            @AuthenticationPrincipal User user,
             @RequestParam(name="name", required=false, defaultValue="User") String name,
             Map<String, Object> model) {
-        model.put("name", name);
-        //удалить тело и все параметры кроме model
+        if (user == null) {
+            model.put("name", name);
+            model.put("link", "Login.");
+        } else {
+            model.put("name", user.getUsername());
+            model.put("link", "Go to main.");
+        }
+        //Говнокод. Наверно это делается по-другому.
         return "greeting";
     }
 

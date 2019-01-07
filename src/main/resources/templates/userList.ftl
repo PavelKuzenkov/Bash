@@ -1,6 +1,8 @@
 <#import "parts/universal.ftl" as u>
+<#import "parts/login.ftl" as l>
 
 <@u.page>
+    <@l.logout />
 List of users
 
 <table>

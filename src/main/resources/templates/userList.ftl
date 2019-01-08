@@ -1,8 +1,6 @@
 <#import "parts/universal.ftl" as u>
-<#import "parts/login.ftl" as l>
 
 <@u.page>
-    <@l.logout />
 List of users
 
 <table>
@@ -23,5 +21,4 @@ List of users
         </#list>
     </tbody>
 </table>
-<a href="/main">Go to main</a>
 </@u.page>

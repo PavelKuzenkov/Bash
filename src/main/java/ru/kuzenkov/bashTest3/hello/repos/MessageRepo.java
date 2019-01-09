@@ -1,11 +1,14 @@
 package ru.kuzenkov.bashTest3.hello.repos;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 import ru.kuzenkov.bashTest3.hello.domain.Message;
 
-import java.util.List;
-
 public interface MessageRepo extends CrudRepository<Message, Integer> {
 
-    List<Message> findByTag(String tag);
+    Page<Message> findByTag(String tag, Pageable pageable);
+
+    Page<Message> findAll(Pageable pageable);
+
 }

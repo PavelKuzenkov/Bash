@@ -1,4 +1,5 @@
 <#import "parts/universal.ftl" as u>
+<#import "parts/pager.ftl" as p>
 
 <@u.page>
 <div class="form-row">
@@ -35,8 +36,11 @@
         </form>
     </div>
 </div>
+
+<@p.pager url page />
+
 <div class="card-columns">
-    <#list messages as message>
+    <#list page.content as message>
         <div class="card my-3" style="width: 18rem;">
             <#if message.filename??>
                 <img src="/img/${message.filename}" class="card-img-top">
@@ -53,4 +57,5 @@
         No message
     </#list>
 </div>
+<@p.pager url page />
 </@u.page>

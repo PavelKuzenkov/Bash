@@ -50,7 +50,8 @@
                 <i>${message.tag}</i>
             </div>
             <div class="card-footer text-muted">
-            ${message.authorName}
+            <span>${message.dateTime}</span>
+                <i>${message.authorName}</i>
             </div>
         </div>
     <#else>

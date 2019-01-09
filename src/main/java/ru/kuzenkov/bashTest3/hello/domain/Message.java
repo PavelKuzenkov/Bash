@@ -1,6 +1,8 @@
 package ru.kuzenkov.bashTest3.hello.domain;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Entity
 public class Message {
@@ -11,6 +13,9 @@ public class Message {
 
     private String text;
     private String tag;
+    private Date date = new Date();
+    private String dateEndTime = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(date);
+
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
@@ -19,16 +24,24 @@ public class Message {
     private String filename;
 
     public Message() {
+//        this.date = new Date();
+//        this.dateEndTime = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(date);
     }
 
     public Message(String text, String tag, User user) {
         this.author = user;
         this.text = text;
         this.tag = tag;
+//        this.date = new Date();
+//        this.dateEndTime = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(date);
     }
 
     public String getAuthorName() {
         return author != null ? author.getUsername() : "<none>";
+    }
+
+    public String getDateTime() {
+        return dateEndTime != null ? getDateEndTime() : "<none>";
     }
 
     public User getAuthor() {
@@ -65,5 +78,17 @@ public class Message {
 
     public void setFilename(String filename) {
         this.filename = filename;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public String getDateEndTime() {
+        return dateEndTime;
     }
 }

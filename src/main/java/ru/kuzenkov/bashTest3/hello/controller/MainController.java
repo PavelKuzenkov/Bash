@@ -53,13 +53,8 @@ public class MainController {
             Model model,
             @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable
     ) {
-        Page<Message> page;
+        Page<Message> page = filter(filter, pageable);
 
-        if (filter != null && !filter.isEmpty()) {
-            page = messageRepo.findByTag(filter, pageable);
-        } else {
-            page = messageRepo.findAll(pageable);
-        }
         model.addAttribute("page", page);
         model.addAttribute("url", "/main");
         model.addAttribute("filter", filter);
@@ -71,8 +66,11 @@ public class MainController {
             @AuthenticationPrincipal User user,
             @RequestParam String text,
             @RequestParam String tag, Map<String, Object> model,
-            @RequestParam("file") MultipartFile file
+            @RequestParam("file") MultipartFile file,
+            @RequestParam(required = false, defaultValue = "") String filter,
+            @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable
     ) throws IOException {
+
         Message message = new Message(text, tag, user);
         if (file != null && !file.getOriginalFilename().isEmpty()) {
             File uploadDir = new File(uploadPath);
@@ -86,7 +84,20 @@ public class MainController {
         }
         messageRepo.save(message);
         Iterable<Message> messages = messageRepo.findAll();
+        Page<Message> page = filter(filter, pageable);
         model.put("messages", messages);
+        model.put("url", "/main");
+        model.put("page", page);
         return "main";
+    }
+
+    private Page<Message> filter(String filter, Pageable pageable) {
+        Page<Message> result;
+        if (filter != null && !filter.isEmpty()) {
+            result = messageRepo.findByTag(filter, pageable);
+        } else {
+            result = messageRepo.findAll(pageable);
+        }
+        return result;
     }
 }
